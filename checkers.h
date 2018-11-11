@@ -7,9 +7,12 @@
 // 
 // Functions:
 // void init_board(): sets up the board for the game.
+//
 // int evaluate(int player): evaluates the baord for a player. 0 = red, 1 = black.
 // void move_piece(): moves a piece from (l1, l2) to (l3, l4).
+//
 // void remove_piece(): removes the piece at (l1, l2).
+//
 // void check_promotion(): checks if pieces must be promoted. Promtes if necessary.
 // int check win(): checks if a player has won. 0 if the game is not won, 1 for the red player's win, 2 for the black player's win.
 //
