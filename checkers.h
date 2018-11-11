@@ -16,7 +16,7 @@
 // void check_promotion(): checks if pieces must be promoted. Promtes if necessary.
 // int check win(): checks if a player has won. 0 if the game is not won, 1 for the red player's win, 2 for the black player's win.
 //
-// int [][][] legal_moves(int player, int l1, int l2): returns an int [][][] of legal moves for the player. 0 = red, 1 = black.
+// int [][][] legal_moves(int player, int l1, int l2): returns an int [][][] of legal moves for the player. 0 = red, 1 = black. NOTE: the size of the int [][][] will ALWAYS be [100][2][2]. The first size is the number of possible moves (which will hopefully never be larger than 100), the second size is 2, because it lists the starting position and then the end position, and the last size is 2, becasue the peice has an x coordinate and a y coordinate.
 //
 // int [] get_move_red(): reads in the red player's move. Returns an int [4]. Move the piece from (0, 1) to (2, 3).
 //
