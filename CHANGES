@@ -1,0 +1,6 @@
+Please log any changes you make to this document in the form:
+<function name>: <description of changes> (<name>).
+
+Ex: init_board: board is now a global variable, so this function was changed to take no parameters (Sean).
+
+
