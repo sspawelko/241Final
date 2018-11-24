@@ -3,4 +3,4 @@ Please log any changes you make to this document in the form:
 
 Ex: init_board: board is now a global variable, so this function was changed to take no parameters (Sean).
 
-
+checkers.h, evaluate_board.c: changed functions to take a board as a variable. Allows for local modification of copies of boards. Probably easier for the AI. (Sean).

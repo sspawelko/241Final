@@ -6,9 +6,7 @@
 #include "checkers.h"
 
 
-void move_piece(int l1, int l2, int l3, int l4) {
-    extern int board[][];
-
+void move_piece(int l1, int l2, int l3, int l4, int board[][]) {
     board[l3][l4] = board[l1][l2];
     board[l1][l2] = 0;
     

@@ -46,14 +46,15 @@
 int board[8][8];
 
 void init_board();
-int evaluate_b(int player);
-void move_piece(int l1, int l2, int l3, int l4);
-void remove_piece(int l1, int l2);
-int check_win();
-int [][][] legal_moves(int player);
+int evaluate(int player, int board[][]);
+void move_piece(int l1, int l2, int l3, int l4, int board[][]);
+void remove_piece(int l1, int l2, int board[][]);
+int check_win(int board[][]);
+struct move [] legal_moves(int player, int board[][]);
 int [] get_move();
 void print_board();
 void play();
+void check_promotion(int board[][]);
 #endif
 
 

@@ -6,9 +6,7 @@
 #include "checkers.h"
 
 
-int evaluate(int player) {
-    extern int board[][];
-    
+int evaluate(int player, int board[][]) {
     int score = 0;
     // For the red player.
     if (player == 0) {

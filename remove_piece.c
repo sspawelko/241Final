@@ -5,8 +5,6 @@
 
 #include "checkers.h"
 
-void remove_piece(int l1, int l2) {
-    extern in board[][];
-
+void remove_piece(int l1, int l2, int board[][]) {
     board[l1][l2] = 0;
 }

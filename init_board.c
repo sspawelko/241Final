@@ -6,9 +6,7 @@
 #include "checkers.h"
 
 
-void init_board() {
-    extern int board[][];
-
+void init_board(int [][]board) {
     // Clear the board.
     for (int i = 0; i < 8; i++) {
 	for (int j = 0; j < 8; j++) {

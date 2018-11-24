@@ -6,9 +6,7 @@
 #include "checkers.h"
 
 
-void check_promotion() {
-    extern int board[][];
-
+void check_promotion(int board[][]) {
     // If red pieces are in the row y = 0, they must be promoted.
     for (int i = 0; i < 8; i++) {
 	if (board[i][0] == 1) {
