@@ -4,3 +4,5 @@ Please log any changes you make to this document in the form:
 Ex: init_board: board is now a global variable, so this function was changed to take no parameters (Sean).
 
 checkers.h, pretty much everything else: changed functions to take a board as a variable. Allows for local modification of copies of boards. Probably easier for the AI. (Sean).
+
+temp_checker.c: changed old movelist function to printmovelist, which prints a list of all moves for the player specified, and added movelist, which returns an array of all possible moves for the player specified.
