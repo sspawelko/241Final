@@ -1,9 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 
 int global_board[8][8] = {0};
 bool whiteturn = true;
-bool jumped = false;
+//bool jumped = false;
 
 // Initialize checker board
 void initboard(int board[8][8]){
@@ -69,7 +70,7 @@ int checkwin(int board[8][8]){
 }
 
 // Check validity of moves
-int checkmove (int board[8][8], int irow, int icol, int frow, int fcol){
+int checkmove (int board[8][8], bool localturn, int irow, int icol, int frow, int fcol){
 
     // Check if values may go over the board
     if(irow < 0 || irow >= 8){
@@ -87,10 +88,10 @@ int checkmove (int board[8][8], int irow, int icol, int frow, int fcol){
     }
 
     // Check if correct initial pieces were given based on the current turn
-    if(whiteturn == true && board[irow][icol] != 1 && board[irow][icol] != 3){
+    if(localturn == true && board[irow][icol] != 1 && board[irow][icol] != 3){
 	//printf("Invalid piece\n");
 	return 1;
-    } else if (whiteturn != true && board[irow][icol] != 2 && board[irow][icol] != 4){
+    } else if (localturn != true && board[irow][icol] != 2 && board[irow][icol] != 4){
 	//printf("Invalid piece\n");
 	return 1;
     }
@@ -103,10 +104,10 @@ int checkmove (int board[8][8], int irow, int icol, int frow, int fcol){
     
     // Check if normal pieces are moving in the correct y range
     if (board[irow][icol] == 1 || board[irow][icol] == 2){
-	if (whiteturn == true && (frow <= irow || frow > irow + 2)){
+	if (localturn == true && (frow <= irow || frow > irow + 2)){
 	    //printf("Invalid whitepiece movement\n");
 	    return 1;
-	} else if (whiteturn != true && (frow >= irow|| frow < irow - 2)){
+	} else if (localturn != true && (frow >= irow|| frow < irow - 2)){
 	    //printf("Invalid redpiece movement\n");
 	    return 1;
 	}
@@ -135,7 +136,7 @@ int checkmove (int board[8][8], int irow, int icol, int frow, int fcol){
 
     // Check if jumping is valid for normal pieces
     if (board[irow][icol] == 1 || board[irow][icol] == 2){
-	if(whiteturn == true && frow == irow + 2){
+	if(localturn == true && frow == irow + 2){
 	    if(fcol == icol + 2){
 		if(board[irow+1][icol+1] == 0){
 		    //printf("Invalid jump\n");
@@ -150,7 +151,7 @@ int checkmove (int board[8][8], int irow, int icol, int frow, int fcol){
 		//printf("Invalid movement\n");
 		return 1;
 	    }
-	} else if(whiteturn != true && frow == irow - 2){
+	} else if(localturn != true && frow == irow - 2){
 	    if(fcol == icol + 2){
 		if(board[irow-1][icol+1] == 0){
 		    //printf("Invalid jump\n");
@@ -225,7 +226,9 @@ void makepromotion(int board[8][8]){
 }
 
 // Moves the pieces accordingly
-void movepiece (int board[8][8], int irow, int icol, int frow, int fcol){
+int movepiece (int board[8][8], bool localturn, int irow, int icol, int frow, int fcol){
+
+    int jumped = 0;
 
     // No jumping (normal + promoted)
     if(frow == irow + 1||frow == irow - 1){
@@ -235,7 +238,8 @@ void movepiece (int board[8][8], int irow, int icol, int frow, int fcol){
     // Jumping
     } else if (frow == irow  + 2 || frow == irow - 2){
 
-	jumped = true;
+	jumped = 1;
+	//jumped = true;
 
 	board[frow][fcol] = board[irow][icol];
 	board[irow][icol] = 0;
@@ -245,10 +249,10 @@ void movepiece (int board[8][8], int irow, int icol, int frow, int fcol){
 	    // Jumping right
 	    if(fcol == icol + 2){
 
-		if(whiteturn == true && (board[irow+1][icol+1] == 2 || board[irow+1][icol+1] == 4)){
+		if(localturn == true && (board[irow+1][icol+1] == 2 || board[irow+1][icol+1] == 4)){
 		    printf("Red piece at %c%c taken!\n", irow+'A'+1, icol+'0'+2);
 		    board[irow+1][icol+1] = 0;
-		} else if (whiteturn != true && (board[irow+1][icol+1] == 1 || board[irow+1][icol+1] == 3)){
+		} else if (localturn != true && (board[irow+1][icol+1] == 1 || board[irow+1][icol+1] == 3)){
 		    printf("White piece at %c%c taken!\n", irow+'A'+1, icol+'0'+2);
 		    board[irow+1][icol+1] = 0;
 		}
@@ -256,10 +260,10 @@ void movepiece (int board[8][8], int irow, int icol, int frow, int fcol){
 	    // Jumping left
 	    } else if (fcol == icol - 2){
 		
-		if(whiteturn == true && (board[irow+1][icol-1] == 2 || board[irow+1][icol-1] == 4)){
+		if(localturn == true && (board[irow+1][icol-1] == 2 || board[irow+1][icol-1] == 4)){
 		    printf("Red piece at %c%c taken!\n", irow+'A'+1, icol+'0');
 		    board[irow+1][icol-1] = 0;
-		} else if (whiteturn != true && (board[irow+1][icol-1] == 1 || board[irow+1][icol-1] == 3)){
+		} else if (localturn != true && (board[irow+1][icol-1] == 1 || board[irow+1][icol-1] == 3)){
 		    printf("White piece at %c%c taken!\n", irow+'A'+1, icol+'0');
 		    board[irow+1][icol-1] = 0;
 		}
@@ -271,10 +275,10 @@ void movepiece (int board[8][8], int irow, int icol, int frow, int fcol){
 	    // Jumping right
 	    if(fcol == icol + 2){
 		
-		if(whiteturn == true && (board[irow-1][icol+1] == 2 || board[irow-1][icol+1] == 4)){
+		if(localturn == true && (board[irow-1][icol+1] == 2 || board[irow-1][icol+1] == 4)){
 		    printf("Red piece at %c%c taken!\n", irow+'A'-1, icol+'0'+2);
 		    board[irow-1][icol+1] = 0;
-		} else if (whiteturn != true && (board[irow-1][icol+1] == 1 || board[irow-1][icol+1] == 3)){
+		} else if (localturn != true && (board[irow-1][icol+1] == 1 || board[irow-1][icol+1] == 3)){
 		    printf("White piece at %c%c taken!\n", irow+'A'-1, icol+'0'+2);
 		    board[irow-1][icol+1] = 0;
 		}
@@ -282,10 +286,10 @@ void movepiece (int board[8][8], int irow, int icol, int frow, int fcol){
 	    // Jumping left
 	    } else if (fcol == icol - 2){
 		
-		if(whiteturn == true && (board[irow-1][icol-1] == 2 || board[irow-1][icol-1] == 4)){
+		if(localturn == true && (board[irow-1][icol-1] == 2 || board[irow-1][icol-1] == 4)){
 		    printf("Red piece at %c%c taken!\n", irow+'A'-1, icol+'0');
 		    board[irow-1][icol-1] = 0;
-		} else if (whiteturn != true && (board[irow-1][icol-1] == 1 || board[irow-1][icol-1] == 3)){
+		} else if (localturn != true && (board[irow-1][icol-1] == 1 || board[irow-1][icol-1] == 3)){
 		    printf("White piece at %c%c taken!\n", irow+'A'-1, icol+'0');
 		    board[irow-1][icol-1] = 0;
 		}
@@ -296,6 +300,8 @@ void movepiece (int board[8][8], int irow, int icol, int frow, int fcol){
     }
 
     makepromotion(board);
+
+    return jumped;
 }
 
 
@@ -359,12 +365,12 @@ void movepiece (int board[8][8], int irow, int icol, int frow, int fcol){
 }*/
 
 // Checks if more jumps are necessary
-int checkjump (int board[8][8], int row, int col, int irow, int icol){
+int checkjump (int board[8][8], bool localturn, int row, int col, int irow, int icol){
    
     // Normal pieces
     if(board[row][col] == 1 || board[row][col] == 2){ 
 
-	if(whiteturn == true){
+	if(localturn == true){
 	    if((row + 1) < 7 && (col + 1) < 7){
 		if(board[row+1][col+1] != 0){
 		    if(board[row+2][col+2] == 0){
@@ -380,7 +386,7 @@ int checkjump (int board[8][8], int row, int col, int irow, int icol){
 		    }
 		}
 	    }
-	}  else if (whiteturn != true){
+	}  else if (localturn != true){
 	    if((row-1) > 0 && (col + 1) < 7){
 		if(board[row-1][col+1] != 0){
 		    if(board[row-2][col+2] == 0){
@@ -558,7 +564,7 @@ void movelist(int board[8][8], int row, int col ){
 	for (int j = -2; j < 3; j++){
 	    if(!(i == 0 && j == 0)){
 		
-		if(checkmove(board, row, col, row + i, col + j) == 0){
+		if(checkmove(board, whiteturn, row, col, row + i, col + j) == 0){
 		    printf("%c%c ", row + i + 'A', col + j + '0' + 1);
 		}
 	    }
@@ -569,19 +575,206 @@ void movelist(int board[8][8], int row, int col ){
 
 }
 
+void printlist (int movelist[48][5]);
+
+int givemove (int board[8][8], bool localturn){
+    
+    int movelist[48][5];
+    int counter = 0;
+
+    for(int i = 0; i < 8; i++){
+	for(int j = 0; j < 8; j++){
+
+	    if(localturn && (global_board[i][j] == 1 || global_board[i][j] == 3)){
+
+		for(int k = -2; k < 3; k++){
+		    for (int l = -2; l < 3; l++){
+			
+			if(checkmove(board, localturn, i, j, i + k, j + l) == 0){
+			    
+			    /*
+			    char movestr[4];
+			    movestr[0] = i;
+			    movestr[1] = j;
+			    movestr[2] = i + k;
+			    movestr[3] = j + l;
+			    */
+
+			    movelist[counter][0] = i;
+			    movelist[counter][1] = j;
+			    movelist[counter][3] = i + k;
+			    movelist[counter][4] = j + l;
+
+			    counter++;
+			}
+
+		    }
+		}
+
+	    }else if (!localturn && (global_board[i][j] == 2 || global_board[i][j] == 4)){
+		
+		for(int k = -2; k < 3; k++){
+
+		    for (int l = -2; l < 3; l++){
+			
+			if(checkmove(board, localturn, i, j, i + k, j + l) == 0){
+			    
+			    movelist[counter][0] = i;
+			    movelist[counter][1] = j;
+			    movelist[counter][2] = i + k;
+			    movelist[counter][3] = j + l;
+
+			    counter++;
+			}
+
+		    }
+		}	 
+
+	}
+    }
+    }
+    movelist[counter][0] = -1;
+
+    //printlist(movelist);
+
+    return counter;
+}
+
+// temporary
+void printlist (int movelist[48][5]){
+    
+    int i = 0;
+
+    while (movelist[i][0] != -1){
+	printf("| %c%d -> %c%d |\n", movelist[i][0] + 'A', movelist[i][1] + 1, movelist[i][3] + 'A', movelist[i][4] + 1);
+	i++;
+    }
+}
+
+
+typedef struct checkernode {
+
+    int localboard[8][8];
+    bool localturn;
+
+    bool jumped;
+
+    bool gameover;
+
+    int boardvalue;
+
+    int movemade[5];
+
+    int childcount;
+    struct checkernode ** childlist;
+
+} node;
+
+/*
+void initroot(node * root){
+
+    int value = 0;
+    for(int i = 0; i < 8; i++){
+	for(int j = 0; j < 8; j++){
+	    root->localboard[i][j] = global_board[i][j];
+	    if(global_board[i][j] == 2 || global_board[i][j] == 4){
+		value--;
+	    } if(global_board[i][j] == 1 || global_board[i][j] == 3){
+		value++;
+	    }
+	}
+    }
+    
+    root->boardvalue = value;
+    root->localturn = whiteturn;
+    
+    int movecount = givemove(global_board, localturn);
+    node ** list = malloc(sizeof(node) * movecount);
+    root->childlist = list;
+}*/
+
+// No make childlist need movemade support
+node * makenode(int current_board[8][8], bool current_turn, bool justjumped){
+
+    int value = 0;
+
+    node * temp = malloc(sizeof(node));
+    for(int i = 0; i < 8; i++){
+	for(int j = 0; j < 8; j++){
+	    temp->localboard[i][j] = current_board[i][j];
+	    
+	    if(global_board[i][j] == 2 || global_board[i][j] == 4){
+		value--;
+	    } if(global_board[i][j] == 1 || global_board[i][j] == 3){
+		value++;
+	    }
+
+	}
+    }
+    temp->localturn = current_turn;
+    temp->jumped = justjumped;
+
+    if(checkwin(current_board) == 2){
+	value -= 100;
+	temp->gameover = true;
+    } else if(checkwin(current_board) == 1){
+	value += 100;
+	temp->gameover = true;
+    } else {
+	temp->gameover = false;
+    }
+
+    temp->boardvalue = value;
+
+    return temp;
+}
+
+void printnode(node * temp){
+    
+    printf("\n------------------------------------\nNode\n");
+    printboard(temp->localboard);
+    printf("Jumped: %s\n", temp->jumped ? "true" : "false");
+    printf("Gameover: %s\n", temp->gameover ? "true" : "false");
+
+    printf("Boardvalue: %d\n", temp->boardvalue);
+    printf("------------------------------------\n");
+
+}
+
+void setchild (node * parentnode){
+
+
+}
+
+
 // 1 = white piece, 2 = red piece
 int main (){
 
     //int global_board[8][8] = {0};
-
     initboard(global_board);
     
     while(checkwin(global_board) == 0){
 
+	int jumped;
+
+	node * root;
+	if(jumped == 1){
+	    root = makenode(global_board, whiteturn, true);
+	} else {
+	    root = makenode(global_board, whiteturn, false);
+	}
+	printnode(root);
+	free(root);
+
 	printboard(global_board);
-	jumped = false;
+	//jumped = false;
+	jumped = 0;
 	printf("\n");
 
+	//int movecount = givemove(global_board, whiteturn, movelist); 
+
+	//printf("\n%d moves\n", movecount);
+	
 	for (int i = 0; i < 8; i++){
 	    for(int j = 0; j < 8; j++){
 		if(whiteturn && (global_board[i][j] == 1 || global_board[i][j] == 3)){
@@ -614,17 +807,16 @@ int main (){
 
 	    int irow = input[0]-'A';
 	    int icol = input[1]-'0'-1;
-
 	    int frow = input[3]-'A';	
 	    int fcol = input[4]-'0'-1;
 
 	    printf("Move: %c%c -> %c%c\n",irow+'A', icol+'0'+1, frow+'A', fcol+'0'+1);
 
-	    if(checkmove(global_board, irow, icol, frow, fcol) == 0){
-		movepiece(global_board,irow,icol,frow,fcol);
+	    if(checkmove(global_board, whiteturn, irow, icol, frow, fcol) == 0){
+		jumped = movepiece(global_board,whiteturn,irow,icol,frow,fcol);
 
 		// Must Jump!
-		if(jumped && checkjump(global_board,frow,fcol,irow,icol) == 1){
+		if(jumped == 1 && checkjump(global_board,whiteturn,frow,fcol,irow,icol) == 1){
 		    printf("You must make a jump!\n");
 		} else {
 		    whiteturn = !whiteturn;
@@ -632,8 +824,14 @@ int main (){
 	    } else {
 		printf("Invalid movement\n");
 	    }
+
 	}
     }
+
+    node * root = makenode(global_board, whiteturn, false);
+    printnode(root);
+    free(root);
+
 
     printboard(global_board);
 
