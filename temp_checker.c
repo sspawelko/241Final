@@ -556,7 +556,7 @@ int checkjump (int board[8][8], int row, int col){
 }*/
 
 // Prints out all possible move locations
-void movelist(int board[8][8], int row, int col ){
+void printmovelist(int board[8][8], int row, int col ){
 
     printf("Movelist for %c%c: ", row+'A', col+'0'+1);
 
@@ -575,12 +575,21 @@ void movelist(int board[8][8], int row, int col ){
 
 }
 
+
+
+
 void printlist (int movelist[48][5]);
 
-int givemove (int board[8][8], bool localturn){
+int ** movelist (int board[8][8], bool localturn){
     
-    int movelist[48][5];
-    int counter = 0;
+    int * values = calloc(49 * 5, sizeof(int));
+    int ** list = malloc(sizeof(int*) * 49);
+
+    for (int i = 0; i < 49; i++){
+	list[i] = values + (i * 5);
+    }
+
+    int counter = 1;
 
     for(int i = 0; i < 8; i++){
 	for(int j = 0; j < 8; j++){
@@ -600,10 +609,10 @@ int givemove (int board[8][8], bool localturn){
 			    movestr[3] = j + l;
 			    */
 
-			    movelist[counter][0] = i;
-			    movelist[counter][1] = j;
-			    movelist[counter][3] = i + k;
-			    movelist[counter][4] = j + l;
+			    list[counter][0] = i;
+			    list[counter][1] = j;
+			    list[counter][3] = i + k;
+			    list[counter][4] = j + l;
 
 			    counter++;
 			}
@@ -619,10 +628,10 @@ int givemove (int board[8][8], bool localturn){
 			
 			if(checkmove(board, localturn, i, j, i + k, j + l) == 0){
 			    
-			    movelist[counter][0] = i;
-			    movelist[counter][1] = j;
-			    movelist[counter][2] = i + k;
-			    movelist[counter][3] = j + l;
+			    list[counter][0] = i;
+			    list[counter][1] = j;
+			    list[counter][2] = i + k;
+			    list[counter][3] = j + l;
 
 			    counter++;
 			}
@@ -633,11 +642,11 @@ int givemove (int board[8][8], bool localturn){
 	}
     }
     }
-    movelist[counter][0] = -1;
+    list[0][0] = counter;
 
     //printlist(movelist);
 
-    return counter;
+    return list;
 }
 
 // temporary
@@ -657,7 +666,7 @@ typedef struct checkernode {
     int localboard[8][8];
     bool localturn;
 
-    bool jumped;
+    int jumped;
 
     bool gameover;
 
@@ -694,7 +703,7 @@ void initroot(node * root){
 }*/
 
 // No make childlist need movemade support
-node * makenode(int current_board[8][8], bool current_turn, bool justjumped){
+node * makenode(int current_board[8][8], bool current_turn, int newmove[5]){
 
     int value = 0;
 
@@ -711,8 +720,20 @@ node * makenode(int current_board[8][8], bool current_turn, bool justjumped){
 
 	}
     }
-    temp->localturn = current_turn;
-    temp->jumped = justjumped;
+
+    int justjumped = movepiece(temp->localboard, current_turn, newmove[0], newmove[1], newmove[3], newmove[4]);
+
+    if(justjumped == 1 && checkjump(current_board,current_turn,newmove[3],newmove[4],newmove[0],newmove[1]) == 1){
+	temp->jumped = justjumped;
+	temp->localturn = current_turn;
+    } else {
+	temp->jumped = justjumped;
+	temp->localturn = !current_turn;
+    }
+
+    for (int i = 0; i < 5; i++){
+	temp->movemade[i] = newmove[i];
+    }
 
     if(checkwin(current_board) == 2){
 	value -= 100;
@@ -734,9 +755,10 @@ void printnode(node * temp){
     printf("\n------------------------------------\nNode\n");
     printboard(temp->localboard);
     printf("Jumped: %s\n", temp->jumped ? "true" : "false");
+    printf("Localturn: %s\n", temp->localturn ? "true" : "false");
     printf("Gameover: %s\n", temp->gameover ? "true" : "false");
-
     printf("Boardvalue: %d\n", temp->boardvalue);
+    printf("Move: %c%c -> %c%c\n", temp->movemade[0] + 'A', temp->movemade[1] + '1', temp->movemade[3]  + 'A', temp->movemade[4] + '1');
     printf("------------------------------------\n");
 
 }
@@ -757,16 +779,10 @@ int main (){
 
 	int jumped;
 
-	node * root;
-	if(jumped == 1){
-	    root = makenode(global_board, whiteturn, true);
-	} else {
-	    root = makenode(global_board, whiteturn, false);
-	}
-	printnode(root);
-	free(root);
-
 	printboard(global_board);
+
+	
+
 	//jumped = false;
 	jumped = 0;
 	printf("\n");
@@ -774,16 +790,28 @@ int main (){
 	//int movecount = givemove(global_board, whiteturn, movelist); 
 
 	//printf("\n%d moves\n", movecount);
-	
+		
 	for (int i = 0; i < 8; i++){
 	    for(int j = 0; j < 8; j++){
 		if(whiteturn && (global_board[i][j] == 1 || global_board[i][j] == 3)){
-		    movelist(global_board, i, j);	
+		    printmovelist(global_board, i, j);	
 		}else if (!whiteturn && (global_board[i][j] == 2 || global_board[i][j] == 4)){
-		    movelist(global_board, i, j);
+		    printmovelist(global_board, i, j);
 		}
 	    }
 	}
+
+	node * root;
+	
+	int ** templist = movelist(global_board, whiteturn);
+
+	for(int i = 1; i <= templist[0][0] -1; i++){
+	    root = makenode(global_board, whiteturn, templist[i]);
+	    printnode(root);
+	    free(root);
+	}
+
+	printboard(global_board);
 
 	if(whiteturn){
 	    printf("White move: ");
