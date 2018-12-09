@@ -1,0 +1,6 @@
+difficulty input
+prompt gametree only on computer turn
+evaltree
+choose move based on child values
+cleanup output
+free usedup memory
