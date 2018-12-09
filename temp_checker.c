@@ -672,6 +672,8 @@ typedef struct checkernode {
 
     int boardvalue;
 
+    int depth;
+
     int movemade[5];
 
     int childcount;
@@ -703,6 +705,7 @@ void initroot(node * root){
 }*/
 
 // No make childlist need movemade support
+// This as well
 node * makenode(int current_board[8][8], bool current_turn, int newmove[5]){
 
     int value = 0;
@@ -720,11 +723,10 @@ node * makenode(int current_board[8][8], bool current_turn, int newmove[5]){
 
 	}
     }
-    
-    //THROWS SEGFAULT HERE
+
     int justjumped = movepiece(temp->localboard, current_turn, newmove[0], newmove[1], newmove[3], newmove[4]);
 
-    if(justjumped == 1 && checkjump(current_board,current_turn,newmove[3],newmove[4],newmove[0],newmove[1]) == 1){
+    if(justjumped == 1 && checkjump(temp->localboard, current_turn,newmove[3],newmove[4],newmove[0],newmove[1]) == 1){
 	temp->jumped = justjumped;
 	temp->localturn = current_turn;
     } else {
@@ -736,10 +738,10 @@ node * makenode(int current_board[8][8], bool current_turn, int newmove[5]){
 	temp->movemade[i] = newmove[i];
     }
 
-    if(checkwin(current_board) == 2){
+    if(checkwin(temp->localboard) == 2){
 	value -= 100;
 	temp->gameover = true;
-    } else if(checkwin(current_board) == 1){
+    } else if(checkwin(temp->localboard) == 1){
 	value += 100;
 	temp->gameover = true;
     } else {
@@ -759,16 +761,79 @@ void printnode(node * temp){
     printf("Localturn: %s\n", temp->localturn ? "true" : "false");
     printf("Gameover: %s\n", temp->gameover ? "true" : "false");
     printf("Boardvalue: %d\n", temp->boardvalue);
+    printf("Depth: %d\n", temp->depth);
     printf("Move: %c%c -> %c%c\n", temp->movemade[0] + 'A', temp->movemade[1] + '1', temp->movemade[3]  + 'A', temp->movemade[4] + '1');
     printf("------------------------------------\n");
 
 }
 
-void setchild (node * parentnode){
 
+// From here
+node * initroot(int current_board[8][8], bool current_turn){
 
+    int value = 0;
+
+    node * temp = malloc(sizeof(node));
+
+    for(int i = 0; i < 8; i++){
+	for(int j = 0; j < 8; j++){
+	    temp->localboard[i][j] = current_board[i][j];
+	    
+	    if(global_board[i][j] == 2 || global_board[i][j] == 4){
+		value--;
+	    } if(global_board[i][j] == 1 || global_board[i][j] == 3){
+		value++;
+	    }
+
+	}
+    }
+
+    temp->jumped = false;
+    temp->localturn = current_turn;
+    temp->depth = 0;
+
+    if(checkwin(current_board) == 2){
+	value -= 100;
+	temp->gameover = true;
+    } else if(checkwin(current_board) == 1){
+	value += 100;
+	temp->gameover = true;
+    } else {
+	temp->gameover = false;
+    }
+
+    temp->boardvalue = value;
+
+    return temp;
 }
 
+void setchild (node * parentnode){
+    
+    int ** templist = movelist(parentnode->localboard, parentnode->localturn);
+    parentnode->childcount = templist[0][0];
+    parentnode->childlist = malloc(sizeof(node) * parentnode->childcount);
+
+    for(int i = 0; i < parentnode->childcount; i++){
+	node * child = makenode(parentnode->localboard, parentnode->localturn, templist[i]);
+	(parentnode->childlist)[i] = child;
+	child->depth = parentnode->depth + 1;
+	printnode(child);
+    }
+}
+
+void gametree (node * parentnode){
+   
+    if(parentnode->depth == 3){
+	return;
+    }	
+
+    setchild(parentnode);
+
+    for(int i = 0; i < parentnode->childcount; i++){
+	gametree(parentnode->childlist[i]);
+    }
+}
+// to here
 
 // 1 = white piece, 2 = red piece
 int main (){
@@ -804,13 +869,9 @@ int main (){
 
 	node * root;
 	
-	int ** templist = movelist(global_board, whiteturn);
-
-	for(int i = 1; i <= templist[0][0] -1; i++){
-	    root = makenode(global_board, whiteturn, templist[i]);
-	    printnode(root);
-	    free(root);
-	}
+	root = initroot(global_board, whiteturn);
+	//setchild(root);
+	gametree(root);
 
 	printboard(global_board);
 
@@ -856,11 +917,6 @@ int main (){
 
 	}
     }
-
-    node * root = makenode(global_board, whiteturn, false);
-    printnode(root);
-    free(root);
-
 
     printboard(global_board);
 
