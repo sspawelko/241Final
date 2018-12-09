@@ -720,7 +720,8 @@ node * makenode(int current_board[8][8], bool current_turn, int newmove[5]){
 
 	}
     }
-
+    
+    //THROWS SEGFAULT HERE
     int justjumped = movepiece(temp->localboard, current_turn, newmove[0], newmove[1], newmove[3], newmove[4]);
 
     if(justjumped == 1 && checkjump(current_board,current_turn,newmove[3],newmove[4],newmove[0],newmove[1]) == 1){
