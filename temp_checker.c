@@ -835,6 +835,16 @@ void gametree (node * parentnode){
 }
 // to here
 
+void free_tree(struct checkernode *tree) {
+    if (tree->childcount != 0) {
+	for (int i = 0; i < tree->childcount; i++) {
+	    free_tree(tree->childlist[i]);
+	}
+    }
+
+    free(tree);
+}
+
 // 1 = white piece, 2 = red piece
 int main (int argc, char **argv) {
     // FLAGS
