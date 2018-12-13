@@ -867,7 +867,7 @@ int main (int argc, char **argv) {
     
     printf("Please enter a difficulty level between 1 and 10.");
 
-    character = getchar();
+    char character = getchar();
     while (character != EOF) {
 	if (character > 47 && character < 58) {
 	    difficulty = difficulty*10 + (character-48);
