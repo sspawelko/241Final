@@ -46,3 +46,4 @@ play: initboard.o printboard.o checkwin.o checkmove.o makepromotion.o movepiece.
 
 clean: 
 	rm -f *.o $(TARGETS)
+
