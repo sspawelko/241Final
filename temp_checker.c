@@ -40,13 +40,13 @@ void printboard(int board[8][8]){
 	printf("| ");
 	for(int j = 0; j < 8; j++){
 	  if (board[i][j] == 1) {
-	    printf("r ");
-	  } else if (board[i][j] == 3) {
-	    printf("R ");
-	  } else if (board[i][j] == 2) {
 	    printf("b ");
-	  } else if (board[i][j] == 4) {
+	  } else if (board[i][j] == 3) {
 	    printf("B ");
+	  } else if (board[i][j] == 2) {
+	    printf("r ");
+	  } else if (board[i][j] == 4) {
+	    printf("R ");
 	  } else if (board[i][j] == 0) {
 	    printf("- ");
 	  } else {
@@ -65,9 +65,9 @@ int checkwin(int board[8][8]){
     for(int i = 0; i < 8; i++){
 	for(int j = 0; j < 8; j++){
 	    if(board[i][j] == 1||board[i][j] == 3){
-		white++;
-	    } else if (board[i][j] == 2||board[i][j] == 4){
 		red++;
+	    } else if (board[i][j] == 2||board[i][j] == 4){
+		white++;
 	    }
 	}
     }
@@ -871,12 +871,12 @@ int main (int argc, char **argv) {
 		AIflag = 0;
 		break;
 	    case '?':
-		printf("yeet\n");
+		printf("usage\n");
 		exit(1);
 		break;
 	    default:
 		printf("You have entered an unsupported flag.\n");
-		printf("yeet\n");
+		printf("usage\n");
 		exit(1);
 		break;
 	}
@@ -954,7 +954,7 @@ int main (int argc, char **argv) {
 	*/
 
 	if(whiteturn){
-	    printf("White move: ");
+	    printf("Black move: ");
 	} else {
 	    printf("Red move: ");
 	}
@@ -999,7 +999,7 @@ int main (int argc, char **argv) {
     printboard(global_board);
 
     if(checkwin(global_board) == 2){
-	printf("White win!\n");
+	printf("Black win!\n");
 	return 0;
     } else if(checkwin(global_board) == 1){
 	printf("Red win!\n");
