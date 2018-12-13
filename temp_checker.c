@@ -40,13 +40,15 @@ void printboard(int board[8][8]){
 	printf("| ");
 	for(int j = 0; j < 8; j++){
 	  if (board[i][j] == 1) {
-	    printf("x ");
+	    printf("r ");
 	  } else if (board[i][j] == 3) {
-	    printf("X ");
+	    printf("R ");
 	  } else if (board[i][j] == 2) {
-	    printf("o ");
+	    printf("b ");
 	  } else if (board[i][j] == 4) {
-	    printf("O ");
+	    printf("B ");
+	  } else if (board[i][j] == 0) {
+	    printf("- ");
 	  } else {
 	    printf("%d ", board[i][j]);
 	  }
@@ -929,7 +931,8 @@ int main (int argc, char **argv) {
 	//int movecount = givemove(global_board, whiteturn, movelist); 
 
 	//printf("\n%d moves\n", movecount);
-		
+
+	/*
 	for (int i = 0; i < 8; i++){
 	    for(int j = 0; j < 8; j++){
 		if(whiteturn && (global_board[i][j] == 1 || global_board[i][j] == 3)){
@@ -945,8 +948,10 @@ int main (int argc, char **argv) {
 	root = initroot(global_board, whiteturn);
 	//setchild(root);
 	gametree(root);
-
+	
 	printboard(global_board);
+	
+	*/
 
 	if(whiteturn){
 	    printf("White move: ");
