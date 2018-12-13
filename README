@@ -4,5 +4,5 @@ If you are currently editing any files, put your name and the files you are edit
 
 To do:
 Prompt the game tree only on the AI's turn
-evaltree function
+Create evaltree function
 Choose move based on child values
