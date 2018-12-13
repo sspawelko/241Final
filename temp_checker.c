@@ -39,7 +39,17 @@ void printboard(int board[8][8]){
 	putchar('A'+i);
 	printf("| ");
 	for(int j = 0; j < 8; j++){
+	  if (board[i][j] == 1) {
+	    printf("x ");
+	  } else if (board[i][j] == 3) {
+	    printf("X ");
+	  } else if (board[i][j] == 2) {
+	    printf("o ");
+	  } else if (board[i][j] == 4) {
+	    printf("O ");
+	  } else {
 	    printf("%d ", board[i][j]);
+	  }
 	}
 	printf("\n");
     }
@@ -863,12 +873,13 @@ int main (int argc, char **argv) {
 	--argc;
     }
 
+    /*
     int difficulty = 0;
     
     printf("Please enter a difficulty level between 1 and 10.");
 
     char character = getchar();
-    while (character != EOF) {
+    while (character != '\n') {
 	if (character > 47 && character < 58) {
 	    difficulty = difficulty*10 + (character-48);
 	}
@@ -888,7 +899,7 @@ int main (int argc, char **argv) {
     if (AIflag == 0) {
 	//play without AI
     }
-    
+    */
 
     //int global_board[8][8] = {0};
     initboard(global_board);
