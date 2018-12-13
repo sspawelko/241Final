@@ -863,6 +863,24 @@ int main (int argc, char **argv) {
 	--argc;
     }
 
+    int difficulty = 0;
+    
+    printf("Please enter a difficulty level between 1 and 10.");
+
+    character = getchar();
+    while (character != EOF) {
+	if (character > 47 && character < 58) {
+	    difficulty = difficulty*10 + (character-48);
+	}
+    }
+
+    if (difficulty == 0) {
+	printf("You have entered an unsupported difficulty level.");
+	exit(1);
+    }
+
+
+
     if (AIflag == 1) {
 	//play with AI
     }
