@@ -1,4 +1,8 @@
 # 241Final
 
 If you are currently editing any files, put your name and the files you are editing in ONGOING CHANGES.
-Please log all changes you make in CHANGES! It will be super annoying if we have no history!
+
+To do:
+Prompt the game tree only on the AI's turn
+evaltree function
+Choose move based on child values
