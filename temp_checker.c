@@ -836,7 +836,41 @@ void gametree (node * parentnode){
 // to here
 
 // 1 = white piece, 2 = red piece
-int main (){
+int main (int argc, char **argv) {
+    // FLAGS
+    int AIflag = 0;
+    while (argc > 1 && argv[1][0] == '-') {
+	switch (argv[1][1])
+	{
+	    case '1':
+		AIflag = 1;
+		break;
+	    case '2':
+		AIflag = 0;
+		break;
+	    case '?':
+		printf("yeet\n");
+		exit(1);
+		break;
+	    default:
+		printf("You have entered an unsupported flag.\n");
+		printf("yeet\n");
+		exit(1);
+		break;
+	}
+
+	++argv;
+	--argc;
+    }
+
+    if (AIflag == 1) {
+	//play with AI
+    }
+
+    if (AIflag == 0) {
+	//play without AI
+    }
+    
 
     //int global_board[8][8] = {0};
     initboard(global_board);
