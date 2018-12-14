@@ -3,6 +3,5 @@
 If you are currently editing any files, put your name and the files you are editing in ONGOING CHANGES.
 
 To do:
-free memory
-	freetree() might not be working correctly, not sure tho
-	
+	Free more memory
+	Fix own-piece jumping
