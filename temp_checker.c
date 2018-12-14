@@ -761,21 +761,23 @@ int main (int argc, char **argv) {
 	++argv;
 	--argc;
     }
+    
+    if(AIflag != 0){
+	printf("Please enter a difficulty level between 1 and 9: ");
 
-    printf("Please enter a difficulty level between 1 and 9: ");
+	int d = getchar();
 
-    int d = getchar();
+	int temp = getchar();
+	while(temp != '\n'){
+	    temp = getchar();
+	}
 
-    int temp = getchar();
-    while(temp != '\n'){
-	temp = getchar();
-    }
-
-    if(d >= '1' && d <= '9'){
-	DIFF = d - '0';
-    } else {
-	printf("You have entered an unsupported difficulty level.\n");
-	exit(1);
+	if(d >= '1' && d <= '9'){
+	    DIFF = d - '0';
+	} else {
+	    printf("You have entered an unsupported difficulty level.\n");
+	    exit(1);
+	}
     }
 
     initboard(global_board);
