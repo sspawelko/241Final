@@ -801,6 +801,7 @@ void freetree(node * tree) {
 	freetree(tree->childlist[i]);
     }
     free(tree->childlist);
+    
     //free(tree->parent);
     free(tree);
 }
