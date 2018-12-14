@@ -916,7 +916,7 @@ int main (int argc, char **argv) {
     int frow = 0;
     int fcol = 0;
     
-    while(checkwin(global_board) == 0 && timer <= 100){
+    while(checkwin(global_board) == 0 && timer <= 1000){
 
 	int jumped;
 
@@ -1088,9 +1088,15 @@ int main (int argc, char **argv) {
 
 	if(white > red){
 	    printf("Black win!\n");
+	    if (AIflag == 1 || AIflag == 2) {
+		printf("I give up! You win!");
+	    }
 	    return 0;
 	} else if(red > white){
 	    printf("Red win!\n");
+	    if (AIflag == 2) {
+		printf("I give up! You win!");
+	    }
 	    return 0;
 	} else {
 	    printf("Stalemate!\n");
