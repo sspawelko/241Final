@@ -799,6 +799,8 @@ void freetree(node * tree) {
     for (int i = 0; i < tree->childcount; i++) {
 	freetree(tree->childlist[i]);
     }
+    free(tree->childlist);
+    free(tree->parent);
     free(tree);
 }
 
@@ -991,6 +993,7 @@ int main (int argc, char **argv) {
 		input[4] = best[4] + '1';
 
 		freetree(root);
+		
 	    }
 	} else if (AIflag == 2){
 	    
@@ -1017,7 +1020,7 @@ int main (int argc, char **argv) {
 	    //printnode(root);
 
 	    freetree(root);
-		
+	    
 	}
 
 	//free(best);
