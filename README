@@ -8,4 +8,5 @@ free memory
 Debugging
 	AI will make 2 moves in a row if it moves to a space that will require a jump next.
 	Doesn't force the player to make a jump if they need to.
-	In AI vs AI games, win is called before it should be.
+	Players can jump their own pieces without removing them.
+	
