@@ -3,6 +3,15 @@
 If you are currently editing any files, put your name and the files you are editing in ONGOING CHANGES.
 
 To do:
+need to consider stalemate conditions
+checkmove() needs changes:
+    when further jumps are required, should check if the 'just jumped' piece is chosen
+				     should check if the next jumping location is not the previous location
+					    // should prevent jumping back and forth!
+more memory free-ing
+	// freetree() might not be working correctly, not sure tho
+
+Done: 
 Prompt the game tree only on the AI's turn
 Create evaltree function
 Choose move based on child values
