@@ -897,7 +897,7 @@ int main (int argc, char **argv) {
 	    temp = getchar();
 	}
 
-	if(d >= '1' && d <= '4'){
+	if(d >= '1' && d <= '9'){
 	    DIFF = d - '0';
 	} else {
 	    fprintf(stderr, "You have entered an unsupported difficulty level.\n");
