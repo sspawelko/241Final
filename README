@@ -3,10 +3,5 @@
 If you are currently editing any files, put your name and the files you are editing in ONGOING CHANGES.
 
 To do:
-free memory
-	freetree() might not be working correctly, not sure tho
-Debugging
-	AI will make 2 moves in a row if it moves to a space that will require a jump next.
-	Doesn't force the player to make a jump if they need to.
-	Players can jump their own pieces without removing them.
-	
+	Fix own-piece jumping
+	Force players to jump if they can
