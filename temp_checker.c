@@ -347,7 +347,7 @@ int checkjump (int board[8][8], bool localturn, int row, int col, int irow, int 
 	    if((row-1) > 0 && (col + 1) < 7){
 		if(board[row-1][col+1] != 0){
 		    if(board[row-2][col+2] == 0){
-			return 0; //
+			return 1; //
 		    }
 		}
 	    } 
@@ -356,7 +356,7 @@ int checkjump (int board[8][8], bool localturn, int row, int col, int irow, int 
 
 		if(board[row-1][col-1] != 0){
 		    if(board[row-2][col-2] == 0){
-			return 0; //
+			return 1; //
 		    }
 		}
 	    }
@@ -936,14 +936,14 @@ int main (int argc, char **argv) {
 	    for (int i = 0; i < 8; i++){
 		for(int j = 0; j < 8; j++){
 		    if(whiteturn && (global_board[i][j] == 1 || global_board[i][j] == 3)){
-			printmovelist(global_board, i, j);	
+			//printmovelist(global_board, i, j);	
 		    }else if (!whiteturn && (global_board[i][j] == 2 || global_board[i][j] == 4)){
-			printmovelist(global_board, i, j);
+			//printmovelist(global_board, i, j);
 		    }
 		}
 	    }
 	} else {
-	    printjumplist(global_board, frow, fcol, irow, icol);
+	    //printjumplist(global_board, frow, fcol, irow, icol);
 	}
 	printf("\n> ");
 
