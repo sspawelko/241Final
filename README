@@ -4,15 +4,9 @@ If you are currently editing any files, put your name and the files you are edit
 
 To do:
 free memory
-    // freetree() might not be working correctly, not sure tho
+	freetree() might not be working correctly, not sure tho
 Debugging
-
-Done:
-need to consider stalemate conditions
-checkmove() needs changes:
-    when further jumps are required, should check if the 'just jumped' piece is chosen
-				     should check if the next jumping location is not the previous location
-					    // should prevent jumping back and forth!
-Prompt the game tree only on the AI's turn
-Create evaltree function
-Choose move based on child values
+	AI will make 2 moves in a row if it moves to a space that will require a jump next.
+	Doesn't force the player to make a jump if they need to.
+	Players can jump their own pieces without removing them.
+	
