@@ -155,12 +155,12 @@ int checkmove (int board[8][8], bool localturn, int irow, int icol, int frow, in
     if (board[irow][icol] == 1 || board[irow][icol] == 2){
 	if(localturn == true && frow == irow + 2){
 	    if(fcol == icol + 2){
-		if(board[irow+1][icol+1] == 0){
+		if(board[irow+1][icol+1] == 0 || board[irow+1][icol+1] == board[irow][icol] || board[irow+1][icol+1] == board[irow][icol]+2){
 		    //printf("Invalid jump\n");
 		    return 1;
 		}
 	    } else if (fcol == icol - 2){
-		if(board[irow+1][icol-1] == 0){
+		if(board[irow+1][icol-1] == 0 || board[irow+1][icol-1] == board[irow][icol] || board[irow+1][icol-1] == board[irow][icol]+2){
 		    //printf("Invalid jump\n");
 		    return 1;
 		}
@@ -190,13 +190,13 @@ int checkmove (int board[8][8], bool localturn, int irow, int icol, int frow, in
 	if(frow == irow + 2){	
 	    // Jumping right
 	    if(fcol == icol + 2){
-		if(board[irow+1][icol+1] == 0){
+		if(board[irow+1][icol+1] == 0 || board[irow+1][icol+1] == board[irow][icol] || board[irow+1][icol+1] == board[irow][icol]-2){
 		    //printf("Invalid jump\n");
 		    return 1;	
 		}
 	    // Jumping left
 	    } else if (fcol == icol - 2){
-		if(board[irow+1][icol-1] == 0){
+		if(board[irow+1][icol-1] == 0 || board[irow+1][icol-1] == board[irow][icol] || board[irow+1][icol-1] == board[irow][icol]-2){
 		    //printf("Invalid jump\n");
 		    return 1;	
 		}
@@ -209,13 +209,13 @@ int checkmove (int board[8][8], bool localturn, int irow, int icol, int frow, in
 	} else if (frow == irow - 2){
 	    // Jumping right
 	    if(fcol == icol + 2){
-		if(board[irow-1][icol+1] == 0){
+		if(board[irow-1][icol+1] == 0 || board[irow-1][icol+1] == board[irow][icol] || board[irow-1][icol+1] == board[irow][icol]-2){
 		    //printf("Invalid jump\n");
 		    return 1;	
 		}
 	    // Jumping left
 	    } else if (fcol == icol - 2){
-		if(board[irow-1][icol-1] == 0){
+		if(board[irow-1][icol-1] == 0 || board[irow-1][icol-1] == board[irow][icol] || board[irow-1][icol-1] == board[irow][icol]-2){
 		    //printf("Invalid jump\n");
 		    return 1;	
 		}
@@ -347,15 +347,16 @@ int checkjump (int board[8][8], bool localturn, int row, int col, int irow, int 
 	    if((row-1) > 0 && (col + 1) < 7){
 		if(board[row-1][col+1] != 0){
 		    if(board[row-2][col+2] == 0){
-			return 1;
+			return 0; //
 		    }
 		}
 	    } 
 	    
 	    if ((row-1) > 0 && (col - 1) > 0){
+
 		if(board[row-1][col-1] != 0){
 		    if(board[row-2][col-2] == 0){
-			return 1;
+			return 0; //
 		    }
 		}
 	    }
@@ -486,7 +487,7 @@ int ** movelist(node * n){
     int * values;
     int ** list;
 
-    if(n->mustjump == false){
+    if(n->mustjump == false) { //|| n->localturn == false){
     
 	values = calloc(49 * 5, sizeof(int));
 	list = malloc(sizeof(int*) * 49);
