@@ -6,3 +6,4 @@ To do:
 	Fix own-piece jumping
 		Player own-piece jumping is fixed. AI own piece jumping is not.
 	Force players to jump if they can
+	AI can't double jump
