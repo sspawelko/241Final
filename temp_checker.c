@@ -879,12 +879,12 @@ int main (int argc, char **argv) {
 		AIflag = 2;
 		break;
 	    case '?':
-		printf("usage\n");
+		printf("Flags: '-0' play a player vs. player game; '-1' play a player vs. AI game; '-2' play an AI vs. AI game.\n");
 		exit(1);
 		break;
 	    default:
 		printf("You have entered an unsupported flag.\n");
-		printf("usage\n");
+		printf("Flags: '-0' play a player vs. player game; '-1' play a player vs. AI game; '-2' play an AI vs. AI game.\n");
 		exit(1);
 		break;
 	}
