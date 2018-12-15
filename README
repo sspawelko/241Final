@@ -2,8 +2,7 @@
 
 If you are currently editing any files, put your name and the files you are editing in ONGOING CHANGES.
 
-To do:
-	Fix own-piece jumping
-		Fixed for players, not AI
-	Force players to jump if they can
-	Not possible to double jump
+To do, in order of importance:
+	1: Force players to jump if they can
+	2: Allow multiple jumping
+	3: Stop Ai from jumping its own pieces.
