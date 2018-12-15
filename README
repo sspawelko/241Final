@@ -3,6 +3,6 @@
 If you are currently editing any files, put your name and the files you are editing in ONGOING CHANGES.
 
 To do:
-free memory
-	freetree() might not be working correctly, not sure tho
-	
+	Fix own-piece jumping
+		Player own-piece jumping is fixed. AI own piece jumping is not.
+	Force players to jump if they can
