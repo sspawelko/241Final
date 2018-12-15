@@ -86,7 +86,7 @@ int checkwin(int board[8][8]){
     }
 }
 
-// JUMPS?
+// 
 // Check validity of moves
 int checkmove (int board[8][8], bool localturn, int irow, int icol, int frow, int fcol){
 
@@ -156,12 +156,12 @@ int checkmove (int board[8][8], bool localturn, int irow, int icol, int frow, in
     if (board[irow][icol] == 1 || board[irow][icol] == 2){
 	if(localturn == true && frow == irow + 2){
 	    if(fcol == icol + 2){
-		if(board[irow+1][icol+1] == 0 || board[irow+1][icol+1] == board[irow][icol] || board[irow+1][icol+1] == board[irow][icol]+2){
+		if(board[irow+1][icol+1] == 0){
 		    //printf("Invalid jump\n");
 		    return 1;
 		}
 	    } else if (fcol == icol - 2){
-		if(board[irow+1][icol-1] == 0  || board[irow+1][icol-1] == board[irow][icol] || board[irow+1][icol-1] == board[irow][icol]+2){
+		if(board[irow+1][icol-1] == 0){
 		    //printf("Invalid jump\n");
 		    return 1;
 		}
@@ -191,13 +191,13 @@ int checkmove (int board[8][8], bool localturn, int irow, int icol, int frow, in
 	if(frow == irow + 2){	
 	    // Jumping right
 	    if(fcol == icol + 2){
-		if(board[irow+1][icol+1] == 0 || board[irow+1][icol+1] == board[irow][icol] || board[irow+1][icol+1] == board[irow][icol]-2){
+		if(board[irow+1][icol+1] == 0){
 		    //printf("Invalid jump\n");
 		    return 1;	
 		}
 	    // Jumping left
 	    } else if (fcol == icol - 2){
-		if(board[irow+1][icol-1] == 0 || board[irow+1][icol-1] == board[irow][icol] || board[irow+1][icol-1] == board[irow][icol]-2) {
+		if(board[irow+1][icol-1] == 0) {
 		    //printf("Invalid jump\n");
 		    return 1;	
 		}
@@ -210,13 +210,13 @@ int checkmove (int board[8][8], bool localturn, int irow, int icol, int frow, in
 	} else if (frow == irow - 2){
 	    // Jumping right
 	    if(fcol == icol + 2){
-		if(board[irow-1][icol+1] == 0  || board[irow-1][icol+1] == board[irow][icol] || board[irow-1][icol+1] == board[irow][icol]-2){
+		if(board[irow-1][icol+1] == 0){
 		    //printf("Invalid jump\n");
 		    return 1;	
 		}
 	    // Jumping left
 	    } else if (fcol == icol - 2){
-		if(board[irow-1][icol-1] == 0  || board[irow-1][icol-1] == board[irow][icol] || board[irow-1][icol-1] == board[irow][icol]-2){
+		if(board[irow-1][icol-1] == 0){
 		    //printf("Invalid jump\n");
 		    return 1;	
 		}
@@ -243,7 +243,7 @@ void makepromotion(int board[8][8]){
     }
 }
 
-//Fix own jumps here
+// 
 // Moves the pieces accordingly
 int movepiece (int board[8][8], bool localturn, int irow, int icol, int frow, int fcol){
 
@@ -323,7 +323,7 @@ int movepiece (int board[8][8], bool localturn, int irow, int icol, int frow, in
     return jumped;
 }
 
-// Fix own jumps here
+//
 // Checks if more jumps are necessary
 int checkjump (int board[8][8], bool localturn, int row, int col, int irow, int icol){
    
@@ -332,7 +332,7 @@ int checkjump (int board[8][8], bool localturn, int row, int col, int irow, int 
 
 	if(localturn == true){
 	    if((row + 1) < 7 && (col + 1) < 7){
-		if(board[row+1][col+1] != 0 && board[row+1][col+1] != board[row][col] && board[row+1][col+1] != board[row][col]+2 && board[row+1][col+1] != board[row][col]-2){
+		if(board[row+1][col+1] != 0){
 		    if(board[row+2][col+2] == 0){
 			return 1;
 		    }
@@ -340,7 +340,7 @@ int checkjump (int board[8][8], bool localturn, int row, int col, int irow, int 
 	    } 
 	    
 	    if ((row + 1) < 7 && (col - 1) > 0){
-		if(board[row+1][col-1] != 0 && board[row+1][col+1] != board[row][col] && board[row+1][col+1] != board[row][col]+2 && board[row+1][col+1] != board[row][col]-2){
+		if(board[row+1][col-1] != 0 ){
 		    if(board[row+2][col-2] == 0){
 			return 1;
 		    }
@@ -348,7 +348,7 @@ int checkjump (int board[8][8], bool localturn, int row, int col, int irow, int 
 	    }
 	}  else if (localturn != true){
 	    if((row-1) > 0 && (col + 1) < 7){
-		if(board[row-1][col+1] != 0 && board[row+1][col+1] != board[row][col] && board[row+1][col+1] != board[row][col]+2 && board[row+1][col+1] != board[row][col]-2){
+		if(board[row-1][col+1] != 0 ){
 		    if(board[row-2][col+2] == 0){
 			return 1; //
 		    }
@@ -358,7 +358,7 @@ int checkjump (int board[8][8], bool localturn, int row, int col, int irow, int 
 	    if ((row-1) > 0 && (col - 1) > 0){
 
 		if(board[row-1][col-1] != 0){
-		    if(board[row-2][col-2] != 0 && board[row+1][col+1] != board[row][col] && board[row+1][col+1] != board[row][col]+2 && board[row+1][col+1] != board[row][col]-2){
+		    if(board[row-2][col-2] != 0){
 			return 1; //
 		    }
 		}
