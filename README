@@ -4,5 +4,6 @@ If you are currently editing any files, put your name and the files you are edit
 
 To do:
 	Fix own-piece jumping
+		Fixed for players, not AI
 	Force players to jump if they can
 	Not possible to double jump
