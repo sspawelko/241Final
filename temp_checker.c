@@ -156,12 +156,12 @@ int checkmove (int board[8][8], bool localturn, int irow, int icol, int frow, in
     if (board[irow][icol] == 1 || board[irow][icol] == 2){
 	if(localturn == true && frow == irow + 2){
 	    if(fcol == icol + 2){
-		if(board[irow+1][icol+1] == 0){
+		if(board[irow+1][icol+1] == 0 || board[irow+1][icol+1] == board[irow][icol] || board[irow+1][icol+1] == board[irow][icol] +2){
 		    //printf("Invalid jump\n");
 		    return 1;
 		}
 	    } else if (fcol == icol - 2){
-		if(board[irow+1][icol-1] == 0){
+		if(board[irow+1][icol-1] == 0 || board[irow+1][icol-1] == board[irow][icol] || board[irow+1][icol+1] == board[irow][icol] +2){
 		    //printf("Invalid jump\n");
 		    return 1;
 		}
@@ -191,13 +191,13 @@ int checkmove (int board[8][8], bool localturn, int irow, int icol, int frow, in
 	if(frow == irow + 2){	
 	    // Jumping right
 	    if(fcol == icol + 2){
-		if(board[irow+1][icol+1] == 0){
+		if(board[irow+1][icol+1] == 0 || board[irow+1][icol+1] == board[irow][icol] || board[irow+1][icol+1] == board[irow][icol] -2){
 		    //printf("Invalid jump\n");
 		    return 1;	
 		}
 	    // Jumping left
 	    } else if (fcol == icol - 2){
-		if(board[irow+1][icol-1] == 0) {
+		if(board[irow+1][icol-1] == 0 || board[irow+1][icol-1] == board[irow][icol] || board[irow+1][icol-1] == board[irow][icol] -2) {
 		    //printf("Invalid jump\n");
 		    return 1;	
 		}
@@ -210,13 +210,13 @@ int checkmove (int board[8][8], bool localturn, int irow, int icol, int frow, in
 	} else if (frow == irow - 2){
 	    // Jumping right
 	    if(fcol == icol + 2){
-		if(board[irow-1][icol+1] == 0){
+		if(board[irow-1][icol+1] == 0 || board[irow-1][icol+1] == board[irow][icol] || board[irow-1][icol+1] == board[irow][icol] -2){
 		    //printf("Invalid jump\n");
 		    return 1;	
 		}
 	    // Jumping left
 	    } else if (fcol == icol - 2){
-		if(board[irow-1][icol-1] == 0){
+		if(board[irow-1][icol-1] == 0 || board[irow-1][icol-1] == board[irow][icol] || board[irow-1][icol-1] == board[irow][icol] -2){
 		    //printf("Invalid jump\n");
 		    return 1;	
 		}
@@ -330,7 +330,7 @@ int checkjump (int board[8][8], bool localturn, int row, int col, int irow, int 
     // Normal pieces
     if(board[row][col] == 1 || board[row][col] == 2){ 
 
-	if(localturn == true){
+	if (localturn == true) {
 	    if((row + 1) < 7 && (col + 1) < 7){
 		if(board[row+1][col+1] != 0){
 		    if(board[row+2][col+2] == 0){
@@ -367,9 +367,9 @@ int checkjump (int board[8][8], bool localturn, int row, int col, int irow, int 
 
     //	Promoted pieces
     } else if (board[row][col] == 3 || board[row][col] == 4){ 
-	if (localturn != true) {
+	/*if (localturn != true) {
 	    return 0;
-	}
+	}*/
 
 	if((row + 1) < 7 && (col + 1) < 7){
 
@@ -645,7 +645,7 @@ node * makenode(int current_board[8][8], bool current_turn, int newmove[5]){
 
     if(justjumped == 1 && checkjump(temp->localboard, current_turn,newmove[3],newmove[4],newmove[0],newmove[1]) == 1)	{
 	temp->mustjump = true;
-	temp->localturn = current_turn;
+	temp->localturn = true;
     } else {
 	temp->mustjump = false;
 	temp->localturn = !current_turn;
@@ -1051,6 +1051,7 @@ int main (int argc, char **argv) {
 		if(jumped == 1 && checkjump(global_board,whiteturn,frow,fcol,irow,icol) == 1){
 		    global_mustjump = true;
 		    printf("You must make a jump!\n");
+		    whiteturn = true;
 		} else {
 		    global_mustjump = false;
 		    whiteturn = !whiteturn;
