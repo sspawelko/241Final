@@ -1093,13 +1093,13 @@ int main (int argc, char **argv) {
 	if(white > red){
 	    printf("Black win!\n");
 	    if (AIflag == 1 || AIflag == 2) {
-		printf("I give up! You win!");
+		printf("I give up! You win!\n");
 	    }
 	    return 0;
 	} else if(red > white){
 	    printf("Red win!\n");
 	    if (AIflag == 2) {
-		printf("I give up! You win!");
+		printf("I give up! You win!\n");
 	    }
 	    return 0;
 	} else {
