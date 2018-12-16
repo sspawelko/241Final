@@ -901,7 +901,7 @@ int main (int argc, char **argv) {
     }
     
     if(AIflag != 0){
-	fprintf(stderr, "Please enter a difficulty level between 1 and 4: ");
+	fprintf(stderr, "Please enter a difficulty level between 1 and 5: ");
 
 	int d = getchar();
 
@@ -910,7 +910,7 @@ int main (int argc, char **argv) {
 	    temp = getchar();
 	}
 
-	if(d >= '1' && d <= '4'){
+	if(d >= '1' && d <= '5'){
 	    DIFF = d - '0';
 	} else {
 	    fprintf(stderr, "You have entered an unsupported difficulty level.\n");
@@ -947,14 +947,14 @@ int main (int argc, char **argv) {
 	    for (int i = 0; i < 8; i++){
 		for(int j = 0; j < 8; j++){
 		    if(whiteturn && (global_board[i][j] == 1 || global_board[i][j] == 3)){
-			printmovelist(global_board, i, j);	
+			//printmovelist(global_board, i, j);	
 		    }else if (!whiteturn && (global_board[i][j] == 2 || global_board[i][j] == 4)){
-			printmovelist(global_board, i, j);
+			//printmovelist(global_board, i, j);
 		    }
 		}
 	    }
 	} else {
-	    printjumplist(global_board, frow, fcol, irow, icol);
+	    //printjumplist(global_board, frow, fcol, irow, icol);
 	}
 	printf("\n> ");
 
