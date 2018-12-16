@@ -484,16 +484,17 @@ typedef struct checkernode {
 int ** movelist(node * n){
 
     int counter = 1;
-    int * values;
+    //int * values;
     int ** list;
 
     if(n->mustjump == false){
     
-	values = calloc(49 * 5, sizeof(int));
+	//values = calloc(49 * 5, sizeof(int));
 	list = malloc(sizeof(int*) * 49);
 
 	for (int i = 0; i < 49; i++){
-	    list[i] = values + (i * 5);
+	    //list[i] = values + (i * 5);
+	    list[i] = malloc(49 * 5 * sizeof(int));
 	}
 
 	for(int i = 0; i < 8; i++){
@@ -542,11 +543,12 @@ int ** movelist(node * n){
 
     } else {
 	
-	values = calloc(49 * 5, sizeof(int));
+	//values = calloc(49 * 5, sizeof(int));
 	list = malloc(sizeof(int*) * 49);
 
-	for (int i = 0; i < 5; i++){
-	    list[i] = values + (i * 5);
+	for (int i = 0; i < 49; i++){
+	    //list[i] = values + (i * 5);
+	    list[i] = malloc(49 * 5 * sizeof(int));
 	}
 	
 	int row = n->movemade[3];
@@ -776,6 +778,12 @@ void setchild (node * parentnode){
 	//printnode(child);
     }
 
+    for(int i = 0; i < 49; i++){
+	free(templist[i]);
+    }
+
+    free(templist);
+
 }
 
 void gametree (node * parentnode){
@@ -984,14 +992,15 @@ int main (int argc, char **argv) {
 		gametree(root);
 		
 		if(root->childcount == 0){
+		    freetree(root);
 		    fprintf(stderr, "No possible moves\n");
 		    break;
 		}
 
 		evaltree(root);
 	
-		int * best = malloc(sizeof(int) * 5);
-		best = bestmove(root);
+		//int * best = malloc(sizeof(int) * 5);
+		int * best = bestmove(root);
 
 		input[0] = best[0] + 'A';
 		input[1] = best[1] + '1';
@@ -999,9 +1008,10 @@ int main (int argc, char **argv) {
 		input[3] = best[3] + 'A';
 		input[4] = best[4] + '1';
 		
-		//free(best);
 		freetree(root);
+    
 	    }
+
 	} else if (AIflag == 2){
 	    
 	    node * root;
@@ -1010,14 +1020,15 @@ int main (int argc, char **argv) {
 	    gametree(root);
 
 	    if(root->childcount == 0){
+		freetree(root);
 		fprintf(stderr, "No possible moves\n");
 		break;
 	    }
 
 	    evaltree(root);
 	
-	    int * best = malloc(sizeof(int) * 5);
-	    best = bestmove(root);
+	    //int * best = malloc(sizeof(int) * 5);
+	    int * best = bestmove(root);
 
 	    input[0] = best[0] + 'A';
 	    input[1] = best[1] + '1';
@@ -1029,10 +1040,11 @@ int main (int argc, char **argv) {
 	    
 	    //free(best);
 	    freetree(root);
+
+	    //free(best);
 		
 	}
 
-	//free(best);
 	if(input[0] == 's' && input[1] == 'a' && input[2] == 'v' && input[3] == 'e' && isdigit(input[4])){
 	    
 	    FILE * save;
@@ -1160,8 +1172,8 @@ int main (int argc, char **argv) {
 	    }
 
 	}
-	
-	
+
+	//free(best);	
     }
 
     fclose(log);
