@@ -77,7 +77,7 @@ int main (int argc, char **argv) {
     
     int jumped = 0;
 
-    while(checkwin(global_board) == 0 && timer <= 1000){
+    while(checkwin(global_board) == 0 && timer <= 250){
 
 	//printboard(global_board);
 	//printf("\n");
