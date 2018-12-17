@@ -14,3 +14,6 @@ Flags
 Supports difficult levels 1-5. Runs out of heap memory on higher settings.
 
 No memory leaks!
+
+To do:
+	Players and AIs are not forced to jump...
