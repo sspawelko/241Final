@@ -3,7 +3,7 @@
 	makefile
 
 
-A checkers game with multiple difficulty levels, that can be played human vs human, human vs AI, or AI vs AI.
+A checkers game with multiple difficulty levels that can be played human vs human, human vs AI, or AI vs AI.
 
 Flags
 	-0: No AI players, human vs human.
