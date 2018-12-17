@@ -95,14 +95,14 @@ int main (int argc, char **argv) {
 	    for (int i = 0; i < 8; i++){
 		for(int j = 0; j < 8; j++){
 		    if(whiteturn && (global_board[i][j] == 1 || global_board[i][j] == 3)){
-			printmovelist(global_board, i, j);	
+			//printmovelist(global_board, i, j);	
 		    }else if (!whiteturn && (global_board[i][j] == 2 || global_board[i][j] == 4)){
-			printmovelist(global_board, i, j);
+			//printmovelist(global_board, i, j);
 		    }
 		}
 	    }
 	} else {
-	    printjumplist(global_board, frow, fcol, irow, icol);
+	    //printjumplist(global_board, frow, fcol, irow, icol);
 	}
 	printf("\n> ");
 
