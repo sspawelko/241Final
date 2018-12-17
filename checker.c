@@ -34,7 +34,7 @@ int main (int argc, char **argv) {
 		AIflag = 2;
 		break;
 	    case '?':
-		printf("usage\n");
+		printf("With this program, you can play checkers!\n\nYou can choose from 3 game modes with flags:\n     -0: No AI players, human vs human.\n     -1: 1 AI player, human vs AI.\n     -2: 2 AI players, AI vs AI.\n\nSupports difficulty levels 1-7.\n");
 		exit(1);
 		break;
 	    default:
