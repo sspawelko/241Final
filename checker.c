@@ -49,7 +49,7 @@ int main (int argc, char **argv) {
     }
     
     if(AIflag != 0){
-	fprintf(stderr, "Please enter a difficulty level between 1 and 4: ");
+	fprintf(stderr, "Please enter a difficulty level between 1 and 7: ");
 
 	int d = getchar();
 
@@ -58,7 +58,7 @@ int main (int argc, char **argv) {
 	    temp = getchar();
 	}
 
-	if(d >= '1' && d <= '9'){
+	if(d >= '1' && d <= '7'){
 	    DIFF = d - '0';
 	} else {
 	    fprintf(stderr, "You have entered an unsupported difficulty level.\n");
