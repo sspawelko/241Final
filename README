@@ -1,6 +1,4 @@
 241Final
-	temp_checker.c
-	makefile
 
 
 A checkers game with multiple difficulty levels that can be played human vs human, human vs AI, or AI vs AI.
@@ -11,9 +9,6 @@ Flags
 	-2: Two AI players, AI vs AI.
 	-?: Usage message.
 	
-Supports difficult levels 1-5. Runs out of heap memory on higher settings.
+Supports difficult levels 1-7. Runs out of heap memory on higher settings.
 
 No memory leaks!
-
-To do:
-	Players and AIs are not always forced to jump...
