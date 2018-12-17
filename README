@@ -1,8 +1,19 @@
-# 241Final
+241Final
+	temp_checker.c
+	makefile
 
-If you are currently editing any files, put your name and the files you are editing in ONGOING CHANGES.
 
-To do, in order of importance:
-	1: Force players to jump if they can
-	2: Allow multiple jumping
-	3: Stop Ai from jumping its own pieces.
+A checkers game with multiple difficulty levels that can be played human vs human, human vs AI, or AI vs AI.
+
+Flags
+	-0: No AI players, human vs human.
+	-1: One AI player, human vs AI.
+	-2: Two AI players, AI vs AI.
+	-?: Usage message.
+	
+Supports difficult levels 1-5. Runs out of heap memory on higher settings.
+
+No memory leaks!
+
+To do:
+	Players and AIs are not always forced to jump...
