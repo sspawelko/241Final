@@ -2,14 +2,18 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include <time.h>
 
 int global_board[8][8] = {{0}};
 bool whiteturn = true;
 int DIFF = 1;
 
+bool user = false;
 bool ai_shift = true;
 
 void printlist (int movelist[48][5]);
+int checkjump (int board[8][8], bool localturn, int row, int col, int irow, int icol);
+
 
 // Initialize checker board
 void initboard(int board[8][8]){
@@ -156,12 +160,12 @@ int checkmove (int board[8][8], bool localturn, int irow, int icol, int frow, in
     if (board[irow][icol] == 1 || board[irow][icol] == 2){
 	if(localturn == true && frow == irow + 2){
 	    if(fcol == icol + 2){
-		if(board[irow+1][icol+1] == 0){
+		if(board[irow+1][icol+1] != 2 && board[irow+1][icol+1] != 4){
 		    //printf("Invalid jump\n");
 		    return 1;
 		}
 	    } else if (fcol == icol - 2){
-		if(board[irow+1][icol-1] == 0){
+		if(board[irow+1][icol-1] != 2 && board[irow+1][icol-1] != 4){
 		    //printf("Invalid jump\n");
 		    return 1;
 		}
@@ -171,12 +175,12 @@ int checkmove (int board[8][8], bool localturn, int irow, int icol, int frow, in
 	    }
 	} else if(localturn != true && frow == irow - 2){
 	    if(fcol == icol + 2){
-		if(board[irow-1][icol+1] == 0){
+		if(board[irow-1][icol+1] != 1 && board[irow-1][icol+1] != 3){
 		    //printf("Invalid jump\n");
 		    return 1;
 		}
 	    } else if (fcol == icol - 2){
-		if(board[irow-1][icol-1] == 0){
+		if(board[irow-1][icol-1] != 1 && board[irow-1][icol-1] != 4){
 		    //printf("Invalid jump\n");
 		    return 1;
 		}
@@ -191,15 +195,29 @@ int checkmove (int board[8][8], bool localturn, int irow, int icol, int frow, in
 	if(frow == irow + 2){	
 	    // Jumping right
 	    if(fcol == icol + 2){
-		if(board[irow+1][icol+1] == 0){
-		    //printf("Invalid jump\n");
-		    return 1;	
+		if(localturn == true){
+		    if(board[irow+1][icol+1] != 2 && board[irow+1][icol+1] != 4){
+			//printf("Invalid jump\n");
+			return 1;	
+		    }
+		} else {
+		    if(board[irow+1][icol+1] != 1 && board[irow+1][icol+1] != 3){
+			//printf("Invalid jump\n");
+			return 1;	
+		    }
 		}
 	    // Jumping left
 	    } else if (fcol == icol - 2){
-		if(board[irow+1][icol-1] == 0){
-		    //printf("Invalid jump\n");
-		    return 1;	
+		if(localturn == true){
+		    if(board[irow+1][icol-1] != 2 && board[irow+1][icol-1] != 4){
+			//printf("Invalid jump\n");
+			return 1;	
+		    }
+		} else {
+		    if(board[irow+1][icol-1] != 1 && board[irow+1][icol-1] != 3){
+			//printf("Invalid jump\n");
+			return 1;	
+		    }
 		}
 	    } else {
 		//printf("Invalid movement\n");
@@ -210,15 +228,29 @@ int checkmove (int board[8][8], bool localturn, int irow, int icol, int frow, in
 	} else if (frow == irow - 2){
 	    // Jumping right
 	    if(fcol == icol + 2){
-		if(board[irow-1][icol+1] == 0){
-		    //printf("Invalid jump\n");
-		    return 1;	
+		if(localturn == true){
+		    if(board[irow-1][icol+1] != 2 && board[irow-1][icol+1] != 4){
+			//printf("Invalid jump\n");
+			return 1;	
+		    }
+		} else {
+		    if(board[irow-1][icol+1] != 1 && board[irow-1][icol+1] != 3){
+			//printf("Invalid jump\n");
+			return 1;	
+		    }
 		}
 	    // Jumping left
 	    } else if (fcol == icol - 2){
-		if(board[irow-1][icol-1] == 0){
-		    //printf("Invalid jump\n");
-		    return 1;	
+		if(localturn == true){
+		    if(board[irow-1][icol-1] != 2 && board[irow-1][icol-1] != 4){
+			//printf("Invalid jump\n");
+			return 1;	
+		    }
+		} else {
+		    if(board[irow-1][icol-1] != 1 && board[irow-1][icol-1] != 3){
+			//printf("Invalid jump\n");
+			return 1;	
+		    }
 		}
 	    } else {
 		//printf("Invalid movement\n");
@@ -226,7 +258,35 @@ int checkmove (int board[8][8], bool localturn, int irow, int icol, int frow, in
 	    }
 	}
     }
-           
+
+    bool tocheck = false;
+    for(int i = 0; i < 8; i++){
+	for(int j = 0; j < 8; j++){
+	    if(localturn && (board[i][j] == 1 || board[i][j] == 3)){
+		if(checkjump(board, localturn, i, j, i, j) == 1){
+		    //printf("\nJump available at: %c%c", i+'A', j+'0'+1);
+		    tocheck = true;
+		    break;
+		}
+	    } else if(!localturn && (board[i][j] == 2 || board[i][j] == 4)){
+		if(checkjump(board, localturn, i, j, i, j) == 1){
+		    //printf("\nJump available at: %c%c", i+'A', j+'0'+1);
+		    tocheck = true;
+		    break;
+		}
+	    }
+	}
+    }
+
+    if(tocheck){
+	if(checkjump(board, localturn, irow, icol, irow, icol) != 1){   
+	    return 1;
+	}
+	if(!(frow == irow + 2 || frow == irow - 2)){
+	    return 1;
+	}
+    }
+
     return 0;
 }
 
@@ -234,10 +294,14 @@ int checkmove (int board[8][8], bool localturn, int irow, int icol, int frow, in
 void makepromotion(int board[8][8]){
     for(int i = 0; i < 8; i++){
 	if(board[0][i] == 2){
-	    //printf("Red piece at A%c promoted!\n", i+'1');
+	    if(user == true){
+		printf("Red piece at A%c promoted!\n", i+'1');
+	    }
 	    board[0][i] = 4;
 	} else if (board[7][i] == 1){
-	    //printf("White piece at F%c promoted!\n", i+'1');
+	    if(user == true){
+		printf("Black piece at F%c promoted!\n", i+'1');
+	    }
 	    board[7][i] = 3;
 	}
     }
@@ -268,10 +332,14 @@ int movepiece (int board[8][8], bool localturn, int irow, int icol, int frow, in
 	    if(fcol == icol + 2){
 
 		if(localturn == true && (board[irow+1][icol+1] == 2 || board[irow+1][icol+1] == 4)){
-		    //printf("Red piece at %c%c taken!\n", irow+'A'+1, icol+'0'+2);
+		    if(user == true){
+			printf("Red piece at %c%c taken!\n", irow+'A'+1, icol+'0'+2);
+		    }
 		    board[irow+1][icol+1] = 0;
 		} else if (localturn != true && (board[irow+1][icol+1] == 1 || board[irow+1][icol+1] == 3)){
-		    //printf("White piece at %c%c taken!\n", irow+'A'+1, icol+'0'+2);
+		    if(user == true){
+			printf("Black piece at %c%c taken!\n", irow+'A'+1, icol+'0'+2);
+		    }
 		    board[irow+1][icol+1] = 0;
 		}
 
@@ -279,10 +347,14 @@ int movepiece (int board[8][8], bool localturn, int irow, int icol, int frow, in
 	    } else if (fcol == icol - 2){
 		
 		if(localturn == true && (board[irow+1][icol-1] == 2 || board[irow+1][icol-1] == 4)){
-		    //printf("Red piece at %c%c taken!\n", irow+'A'+1, icol+'0');
+		    if(user == true){
+			printf("Red piece at %c%c taken!\n", irow+'A'+1, icol+'0');
+		    }
 		    board[irow+1][icol-1] = 0;
 		} else if (localturn != true && (board[irow+1][icol-1] == 1 || board[irow+1][icol-1] == 3)){
-		    //printf("White piece at %c%c taken!\n", irow+'A'+1, icol+'0');
+		    if(user == true){
+			printf("Black piece at %c%c taken!\n", irow+'A'+1, icol+'0');
+		    }
 		    board[irow+1][icol-1] = 0;
 		}
 
@@ -294,10 +366,14 @@ int movepiece (int board[8][8], bool localturn, int irow, int icol, int frow, in
 	    if(fcol == icol + 2){
 		
 		if(localturn == true && (board[irow-1][icol+1] == 2 || board[irow-1][icol+1] == 4)){
-		    //printf("Red piece at %c%c taken!\n", irow+'A'-1, icol+'0'+2);
+		    if(user == true){
+			printf("Red piece at %c%c taken!\n", irow+'A'-1, icol+'0'+2);
+		    }
 		    board[irow-1][icol+1] = 0;
 		} else if (localturn != true && (board[irow-1][icol+1] == 1 || board[irow-1][icol+1] == 3)){
-		    //printf("White piece at %c%c taken!\n", irow+'A'-1, icol+'0'+2);
+		    if(user == true){
+			printf("Black piece at %c%c taken!\n", irow+'A'-1, icol+'0'+2);
+		    }
 		    board[irow-1][icol+1] = 0;
 		}
 
@@ -305,10 +381,14 @@ int movepiece (int board[8][8], bool localturn, int irow, int icol, int frow, in
 	    } else if (fcol == icol - 2){
 		
 		if(localturn == true && (board[irow-1][icol-1] == 2 || board[irow-1][icol-1] == 4)){
-		    //printf("Red piece at %c%c taken!\n", irow+'A'-1, icol+'0');
+		    if(user == true){
+			printf("Red piece at %c%c taken!\n", irow+'A'-1, icol+'0');
+		    }
 		    board[irow-1][icol-1] = 0;
 		} else if (localturn != true && (board[irow-1][icol-1] == 1 || board[irow-1][icol-1] == 3)){
-		    //printf("White piece at %c%c taken!\n", irow+'A'-1, icol+'0');
+		    if(user == true){
+			printf("Black piece at %c%c taken!\n", irow+'A'-1, icol+'0');
+		    }
 		    board[irow-1][icol-1] = 0;
 		}
 
@@ -317,7 +397,7 @@ int movepiece (int board[8][8], bool localturn, int irow, int icol, int frow, in
 
     }
 
-    makepromotion(board);
+    //makepromotion(board);
 
     return jumped;
 }
@@ -330,7 +410,7 @@ int checkjump (int board[8][8], bool localturn, int row, int col, int irow, int 
 
 	if(localturn == true){
 	    if((row + 1) < 7 && (col + 1) < 7){
-		if(board[row+1][col+1] != 0){
+		if(board[row+1][col+1] == 2 || board[row+1][col+1] == 4){
 		    if(board[row+2][col+2] == 0){
 			return 1;
 		    }
@@ -338,7 +418,7 @@ int checkjump (int board[8][8], bool localturn, int row, int col, int irow, int 
 	    } 
 	    
 	    if ((row + 1) < 7 && (col - 1) > 0){
-		if(board[row+1][col-1] != 0){
+		if(board[row+1][col-1] == 2 || board[row+1][col-1] == 4){
 		    if(board[row+2][col-2] == 0){
 			return 1;
 		    }
@@ -346,7 +426,7 @@ int checkjump (int board[8][8], bool localturn, int row, int col, int irow, int 
 	    }
 	}  else if (localturn != true){
 	    if((row-1) > 0 && (col + 1) < 7){
-		if(board[row-1][col+1] != 0){
+		if(board[row-1][col+1] == 1 || board[row-1][col+1] == 3){
 		    if(board[row-2][col+2] == 0){
 			return 1;
 		    }
@@ -354,7 +434,7 @@ int checkjump (int board[8][8], bool localturn, int row, int col, int irow, int 
 	    } 
 	    
 	    if ((row-1) > 0 && (col - 1) > 0){
-		if(board[row-1][col-1] != 0){
+		if(board[row-1][col-1] == 1 || board[row-1][col-1] == 3){
 		    if(board[row-2][col-2] == 0){
 			return 1;
 		    }
@@ -363,11 +443,10 @@ int checkjump (int board[8][8], bool localturn, int row, int col, int irow, int 
 	}
 
     //	Promoted pieces
-    } else if (board[row][col] == 3 || board[row][col] == 4){ 
+    } else if (board[row][col] == 3){ 
 	
 	if((row + 1) < 7 && (col + 1) < 7){
-
-	    if(board[row+1][col+1] != 0){
+	    if(board[row+1][col+1] == 2 || board[row+1][col+1] == 4){
 		if(board[row+2][col+2] == 0 && !(row+2 == irow && col+2 == icol)){
 		    return 1;
 		}
@@ -377,7 +456,7 @@ int checkjump (int board[8][8], bool localturn, int row, int col, int irow, int 
 	
 	if ((row + 1) < 7 && (col - 1) > 0){
 
-	    if(board[row+1][col-1] != 0){
+	    if(board[row+1][col-1] == 2 || board[row+1][col-1] == 4){
 		if(board[row+2][col-2] == 0 && !(row+2 == irow && col-2 == icol)){
 		    return 1;
 		}
@@ -387,7 +466,7 @@ int checkjump (int board[8][8], bool localturn, int row, int col, int irow, int 
 	
 	if((row-1) > 0 && (col + 1) < 7){
 
-	    if(board[row-1][col+1] != 0){
+	    if(board[row-1][col+1] == 2 || board[row-1][col+1] == 4){
 		if(board[row-2][col+2] == 0 && !(row-2 == irow && col+2 == icol)){
 		    return 1;
 		}
@@ -396,7 +475,47 @@ int checkjump (int board[8][8], bool localturn, int row, int col, int irow, int 
 	
 	if ((row - 1) > 0 && (col - 1) > 0){
 
-	    if(board[row-1][col-1] != 0){
+	    if(board[row-1][col-1] == 2 || board[row-1][col-1] == 4){
+		if(board[row-2][col-2] == 0 && !(row-2 == irow && col-2 == icol)){
+		    return 1;
+		}
+	    }
+
+	}
+    
+    } else if (board[row][col] == 4){ 
+	
+	if((row + 1) < 7 && (col + 1) < 7){
+	    if(board[row+1][col+1] == 1 || board[row+1][col+1] == 3){
+		if(board[row+2][col+2] == 0 && !(row+2 == irow && col+2 == icol)){
+		    return 1;
+		}
+	    }
+
+	} 
+	
+	if ((row + 1) < 7 && (col - 1) > 0){
+
+	    if(board[row+1][col-1] == 1 || board[row+1][col-1] == 3){
+		if(board[row+2][col-2] == 0 && !(row+2 == irow && col-2 == icol)){
+		    return 1;
+		}
+	    }
+
+	} 
+	
+	if((row-1) > 0 && (col + 1) < 7){
+
+	    if(board[row-1][col+1] == 1 || board[row-1][col+1] == 3){
+		if(board[row-2][col+2] == 0 && !(row-2 == irow && col+2 == icol)){
+		    return 1;
+		}
+	    }
+	} 
+	
+	if ((row - 1) > 0 && (col - 1) > 0){
+
+	    if(board[row-1][col-1] == 1 || board[row-1][col-1] == 3){
 		if(board[row-2][col-2] == 0 && !(row-2 == irow && col-2 == icol)){
 		    return 1;
 		}
@@ -838,15 +957,27 @@ int * bestmove (node * parentnode){
 	if(best->boardvalue < parentnode->childlist[i]->boardvalue){
 	    best = parentnode->childlist[i];
 	}
+    }
 
+    int counter = 0;
+    for(int i = 0; i < parentnode->childcount; i++){
 	if(best->boardvalue == parentnode->childlist[i]->boardvalue){
-	    int random = rand() % 2;
-
-	    if(random == 1){
-		best = parentnode->childlist[i];
-
-	    }
+	    counter++;
 	}
+    }
+
+    srand(time(0));
+    int random = rand() % counter;
+
+    int i = 0;
+    while(random >= 0){
+	if(best->boardvalue == parentnode->childlist[i]->boardvalue){
+	    if(random == 0){
+		best = parentnode->childlist[i];
+	    }
+	    random--;
+	}
+	i++;
     }
 
     /*
@@ -908,7 +1039,7 @@ int main (int argc, char **argv) {
 	    temp = getchar();
 	}
 
-	if(d >= '1' && d <= '4'){
+	if(d >= '1' && d <= '9'){
 	    DIFF = d - '0';
 	} else {
 	    fprintf(stderr, "You have entered an unsupported difficulty level.\n");
@@ -1153,16 +1284,23 @@ int main (int argc, char **argv) {
 		
 		fprintf(log, "%c%c %c%c\n", irow+'A',icol+'0'+1,frow+'A',fcol+'0'+1);
 
+		user = true;
 		jumped = movepiece(global_board,whiteturn,irow,icol,frow,fcol);
+		user = false;
 
 		if(jumped == 1 && checkjump(global_board,whiteturn,frow,fcol,irow,icol) == 1){
 		    global_mustjump = true;
-		    printf("You must make a jump!\n");
+		    printf("You must keep jumping!\n");
 		} else {
 		    global_mustjump = false;
 		    whiteturn = !whiteturn;
 		    ai_shift = !ai_shift;
 		}
+		
+		user = true;
+		makepromotion(global_board);
+		user = false;
+
 	    } else {
 		printf("Invalid movement\n");
 	    }
