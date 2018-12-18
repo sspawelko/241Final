@@ -27,3 +27,5 @@ checker: basegame.o checkmove.o movepiece.o checkjump.o movelist.o makenode.o ga
 clean: 
 	rm -f *.o checker
 
+cleanlog: 
+	rm -f *.o checker gamelog .c*
