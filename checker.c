@@ -39,7 +39,7 @@ int main (int argc, char **argv) {
 		break;
 	    default:
 		printf("You have entered an unsupported flag.\n");
-		printf("usage\n");
+    
 		exit(1);
 		break;
 	}
@@ -89,23 +89,8 @@ int main (int argc, char **argv) {
 	}
 
 	printboard(global_board);
-	printf("\n");
-
-	if(!global_mustjump){
-	    for (int i = 0; i < 8; i++){
-		for(int j = 0; j < 8; j++){
-		    if(whiteturn && (global_board[i][j] == 1 || global_board[i][j] == 3)){
-			//printmovelist(global_board, i, j);	
-		    }else if (!whiteturn && (global_board[i][j] == 2 || global_board[i][j] == 4)){
-			//printmovelist(global_board, i, j);
-		    }
-		}
-	    }
-	} else {
-	    //printjumplist(global_board, frow, fcol, irow, icol);
-	}
+	//printf("\n");
 	printf("\n> ");
-
 	
 	int input[5] = {0};
 
@@ -194,8 +179,24 @@ int main (int argc, char **argv) {
 	    //free(best);
 		
 	}
+	if(input[0] == 'm' && input[1] == 'o' && input[2] == 'v' && input[3] == 'e' && input[4] == 's'){
+	    if(!global_mustjump){
+		for (int i = 0; i < 8; i++){
+		    for(int j = 0; j < 8; j++){
+			if(whiteturn && (global_board[i][j] == 1 || global_board[i][j] == 3)){
+			    printmovelist(global_board, i, j);	
+			} else if (!whiteturn && (global_board[i][j] == 2 || global_board[i][j] == 4)){
+			    printmovelist(global_board, i, j);
+			}
+		    }
+		}
+	    } else {
+		printjumplist(global_board, frow, fcol, irow, icol);
+	    }
 
-	if(input[0] == 's' && input[1] == 'a' && input[2] == 'v' && input[3] == 'e' && isdigit(input[4])){
+
+	}
+	else if(input[0] == 's' && input[1] == 'a' && input[2] == 'v' && input[3] == 'e' && isdigit(input[4])){
 	    
 	    FILE * save;
     
