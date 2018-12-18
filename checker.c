@@ -290,7 +290,7 @@ int main (int argc, char **argv) {
 		free(location);
 		
 	} else if(input[0] < 'A' || input[0] > 'H' || input[1] < '1' || input[1] > '8' || input[2] != ' ' || input[3] < 'A' || input[3] > 'H' || input[4] < '1' || input[4] > '8'){
-	    printf("Invalid input: %d %d -> %d %d \n", input[0], input[1], input[3], input[4]);
+	    printf("Invalid input");
 	} else {
 
 	    irow = input[0]-'A';
