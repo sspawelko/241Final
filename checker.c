@@ -19,6 +19,7 @@ int main (int argc, char **argv) {
     FILE * log;
     log = fopen("gamelog","w");
 
+    bool delay = false;
     int timer = 0; 
     int AIflag = 0;
 
@@ -33,6 +34,9 @@ int main (int argc, char **argv) {
 		break;
 	    case '2':
 		AIflag = 2;
+		break;
+	    case 'd':
+		delay = true;
 		break;
 	    case '?':
 		printf("With this program, you can play checkers!\n\nYou can choose from 3 game modes with flags:\n     -0: No AI players, human vs human.\n     -1: 1 AI player, human vs AI.\n     -2: 2 AI players, AI vs AI.\n\nSupports difficulty levels 1-7.\n");
@@ -122,6 +126,10 @@ int main (int argc, char **argv) {
 
 	    } else {
 		
+		if(delay == true){
+		    sleep(1);
+		}
+
 		node * root;
 		root = initroot(global_board, whiteturn, global_mustjump, irow, icol, frow, fcol);
 
@@ -150,7 +158,9 @@ int main (int argc, char **argv) {
 
 	} else if (AIflag == 2){
 	    
-	    sleep(1);
+	    if(delay == true){
+		sleep(1);
+	    }
 
 	    node * root;
 	    root = initroot(global_board, whiteturn, global_mustjump, irow, icol, frow, fcol);
