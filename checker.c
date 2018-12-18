@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include <unistd.h>
 
 #include "checkers.h"
 
@@ -91,7 +92,7 @@ int main (int argc, char **argv) {
 	printboard(global_board);
 	//printf("\n");
 	printf("\n> ");
-	
+
 	int input[5] = {0};
 
 	if(AIflag == 0){
@@ -149,6 +150,8 @@ int main (int argc, char **argv) {
 
 	} else if (AIflag == 2){
 	    
+	    sleep(1);
+
 	    node * root;
 	    root = initroot(global_board, whiteturn, global_mustjump, irow, icol, frow, fcol);
 
@@ -328,7 +331,7 @@ int main (int argc, char **argv) {
 	    if(global_mustjump != true){
 		timer++;
 	    }
-
+	    
 	}
 
 	//free(best);	
