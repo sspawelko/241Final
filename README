@@ -8,7 +8,14 @@ Flags
 	-1: One AI player, human vs AI.
 	-2: Two AI players, AI vs AI.
 	-?: Usage message.
+
+Input
+	[Initial Location] [Final Location]: Move a piece from initial location to final location.
+	moves: Prints out a list of possible moves. 
+	save0~9: Save game state 0 ~ 9. 
+	load0~9: Load game state 0 ~ 9.
 	
 Supports difficult levels 1-7. Runs out of heap memory on higher settings.
+Creates gamelog of the most recent checkers game.
 
 No memory leaks!
