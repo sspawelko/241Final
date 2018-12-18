@@ -7,6 +7,7 @@ Flags
 	-0: No AI players, human vs human.
 	-1: One AI player, human vs AI.
 	-2: Two AI players, AI vs AI.
+	-d: Adds a 1 second delay between AI moves to make AI vs. AI games easier to follow.
 	-?: Usage message.
 
 Input
